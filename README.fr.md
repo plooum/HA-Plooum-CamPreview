@@ -8,7 +8,17 @@ L'aperçu est une entité `image` ordinaire, conservée au redémarrage. Les car
 
 ## Installation
 
-HACS → Intégrations → ⋮ → Dépôts personnalisés → `https://github.com/plooum/HA-Plooum-CamPreview` (catégorie *Intégration*), installer **Plooum CamPreview**, redémarrer Home Assistant. Puis **Paramètres → Appareils et services → Ajouter une intégration → Plooum CamPreview**, et choisir une caméra. Une fois par caméra.
+HACS → Intégrations → ⋮ → Dépôts personnalisés → `https://github.com/plooum/HA-Plooum-CamPreview` (catégorie *Intégration*), installer **Plooum CamPreview**, redémarrer Home Assistant. Puis **Paramètres → Appareils et services → Ajouter une intégration → Plooum CamPreview**, et choisir les caméras de départ.
+
+## Plusieurs caméras
+
+L'intégration s'installe une seule fois ; chaque caméra en est une partie, avec ses propres réglages :
+
+- **Ajouter une caméra** sur la page de l'intégration en ajoute une, avec ses réglages ;
+- la ⚙ d'une caméra change ses réglages ;
+- ⋮ → **Supprimer** sur une caméra la retire, avec ses entités et l'image gardée.
+
+Mise à jour depuis la 0.1.0 (une entrée d'intégration par caméra) : chaque entrée devient une entrée Plooum CamPreview qui contient sa caméra, avec les mêmes entités, réglages et image. On peut ajouter de nouvelles caméras à n'importe laquelle.
 
 ## Entités
 
@@ -46,7 +56,7 @@ Les images noires et uniformes ne comptent jamais pour 3 et 4 : une caméra sans
 
 ## Options
 
-**Paramètres → Appareils et services → Plooum CamPreview → ⚙** sur une caméra :
+Réglés à l'ajout d'une caméra, modifiables ensuite par sa ⚙ (**Paramètres → Appareils et services → Plooum CamPreview**). Les caméras choisies à l'installation partent des valeurs par défaut :
 
 | Option | Défaut | |
 | :--- | :--- | :--- |

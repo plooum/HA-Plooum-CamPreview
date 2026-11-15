@@ -14,7 +14,8 @@ from .manager import PreviewManager
 async def async_setup_entry(
     hass: HomeAssistant, entry: CamPreviewConfigEntry, async_add_entities: AddConfigEntryEntitiesCallback
 ) -> None:
-    async_add_entities([ForceUpdateButton(entry.runtime_data)])
+    for key, m in entry.runtime_data.items():
+        async_add_entities([ForceUpdateButton(m)], config_subentry_id=key)
 
 
 class ForceUpdateButton(PreviewEntity, ButtonEntity):

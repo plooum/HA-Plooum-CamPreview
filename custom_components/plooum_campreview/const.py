@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 DOMAIN = "plooum_campreview"
+ENTRY_TITLE = "Plooum CamPreview"
+SUBENTRY_CAMERA = "camera"  # one subentry per camera
 
 CONF_CAMERA = "camera_entity"
+CONF_CAMERAS = "cameras"  # first step: the cameras to start with
 CONF_INTERVAL = "interval"  # s between two captures
 CONF_BLACK_LEVEL = "black_level"
 CONF_MIN_CONTRAST = "min_contrast"

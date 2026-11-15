@@ -8,7 +8,17 @@ The preview is an ordinary `image` entity, kept across restarts. Cards can use i
 
 ## Installation
 
-HACS → Integrations → ⋮ → Custom repositories → `https://github.com/plooum/HA-Plooum-CamPreview` (category *Integration*), install **Plooum CamPreview**, restart Home Assistant. Then **Settings → Devices & services → Add integration → Plooum CamPreview**, and pick a camera. Add it once per camera.
+HACS → Integrations → ⋮ → Custom repositories → `https://github.com/plooum/HA-Plooum-CamPreview` (category *Integration*), install **Plooum CamPreview**, restart Home Assistant. Then **Settings → Devices & services → Add integration → Plooum CamPreview**, and pick the cameras to start with.
+
+## Several cameras
+
+The integration is set up once; each camera is a part of it with its own settings:
+
+- **Add camera** on the integration's page adds one, with its settings;
+- the ⚙ of a camera changes its settings;
+- ⋮ → **Delete** on a camera removes it, its entities and its kept picture.
+
+Upgrading from 0.1.0 (one integration entry per camera): each entry becomes a Plooum CamPreview entry holding its camera, with the same entities, settings and picture. New cameras can be added to any of them.
 
 ## Entities
 
@@ -46,7 +56,7 @@ Black and uniform pictures never count towards 3 and 4: a camera without infrare
 
 ## Options
 
-**Settings → Devices & services → Plooum CamPreview → ⚙** on a camera:
+Set when adding a camera, changed later with its ⚙ (**Settings → Devices & services → Plooum CamPreview**). Cameras picked when setting the integration up start with the defaults:
 
 | Option | Default | |
 | :--- | :--- | :--- |

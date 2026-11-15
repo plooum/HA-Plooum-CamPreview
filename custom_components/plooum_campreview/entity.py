@@ -16,11 +16,10 @@ class PreviewEntity(Entity):
 
     def __init__(self, manager: PreviewManager, key: str) -> None:
         self.manager = manager
-        entry = manager.entry
-        self._attr_unique_id = f"{entry.entry_id}_{key}"
+        self._attr_unique_id = f"{manager.key}_{key}"
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.entry_id)},
-            name=f"{entry.title} preview",
+            identifiers={(DOMAIN, manager.key)},
+            name=f"{manager.title} preview",
             manufacturer="Plooum",
             model="Camera preview",
         )

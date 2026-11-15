@@ -3,38 +3,72 @@
     "step": {
       "user": {
         "title": "Plooum CamPreview",
-        "description": "Pick the camera to keep a regular, filtered preview of.",
+        "description": "Pick the cameras to keep a regular, filtered preview of, with the default settings. Add more later with \"Add camera\", each with its own settings.",
         "data": {
-          "camera_entity": "Camera"
+          "cameras": "Cameras"
         }
       }
     },
     "abort": {
-      "already_configured": "This camera already has a preview."
+      "single_instance_allowed": "Plooum CamPreview is already set up: add cameras from its entry (\"Add camera\")."
     }
   },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Preview settings",
-        "data": {
-          "interval": "Capture interval",
-          "black_level": "Black level (0-255)",
-          "min_contrast": "Minimum contrast",
-          "match_threshold": "Similarity threshold (0-1)",
-          "rebase_count": "Pictures alike to adopt a new view (0: never)",
-          "rebase_minutes": "...over at least",
-          "max_age_hours": "Accept anyway after (0: never)"
+  "config_subentries": {
+    "camera": {
+      "entry_type": "Camera",
+      "initiate_flow": {
+        "user": "Add camera"
+      },
+      "step": {
+        "user": {
+          "title": "Add camera",
+          "data": {
+            "camera_entity": "Camera",
+            "interval": "Capture interval",
+            "black_level": "Black level (0-255)",
+            "min_contrast": "Minimum contrast",
+            "match_threshold": "Similarity threshold (0-1)",
+            "rebase_count": "Pictures alike to adopt a new view (0: never)",
+            "rebase_minutes": "...over at least",
+            "max_age_hours": "Accept anyway after (0: never)"
+          },
+          "data_description": {
+            "interval": "Time between two captures.",
+            "black_level": "A picture whose brightest parts (98th percentile) are darker than this is black and ignored.",
+            "min_contrast": "A picture flatter than this (luminance standard deviation) is uniform (\"no signal\" screen) and ignored.",
+            "match_threshold": "A picture whose edges look less like the usual view than this is ignored: the camera turned.",
+            "rebase_count": "When this many ignored pictures in a row look alike, the camera points somewhere else for good: the new view is adopted.",
+            "rebase_minutes": "...and span at least this long.",
+            "max_age_hours": "Last resort: after this long without any accepted picture (black ones aside), the latest one is taken."
+          }
         },
-        "data_description": {
-          "interval": "Time between two captures.",
-          "black_level": "A picture whose brightest parts (98th percentile) are darker than this is black and ignored.",
-          "min_contrast": "A picture flatter than this (luminance standard deviation) is uniform (\"no signal\" screen) and ignored.",
-          "match_threshold": "A picture whose edges look less like the usual view than this is ignored: the camera turned.",
-          "rebase_count": "When this many ignored pictures in a row look alike, the camera points somewhere else for good: the new view is adopted.",
-          "rebase_minutes": "...and span at least this long.",
-          "max_age_hours": "Last resort: after this long without any accepted picture (black ones aside), the latest one is taken."
+        "reconfigure": {
+          "title": "Preview settings: {camera}",
+          "data": {
+            "interval": "Capture interval",
+            "black_level": "Black level (0-255)",
+            "min_contrast": "Minimum contrast",
+            "match_threshold": "Similarity threshold (0-1)",
+            "rebase_count": "Pictures alike to adopt a new view (0: never)",
+            "rebase_minutes": "...over at least",
+            "max_age_hours": "Accept anyway after (0: never)"
+          },
+          "data_description": {
+            "interval": "Time between two captures.",
+            "black_level": "A picture whose brightest parts (98th percentile) are darker than this is black and ignored.",
+            "min_contrast": "A picture flatter than this (luminance standard deviation) is uniform (\"no signal\" screen) and ignored.",
+            "match_threshold": "A picture whose edges look less like the usual view than this is ignored: the camera turned.",
+            "rebase_count": "When this many ignored pictures in a row look alike, the camera points somewhere else for good: the new view is adopted.",
+            "rebase_minutes": "...and span at least this long.",
+            "max_age_hours": "Last resort: after this long without any accepted picture (black ones aside), the latest one is taken."
+          }
         }
+      },
+      "error": {
+        "already_configured": "This camera already has a preview."
+      },
+      "abort": {
+        "reconfigure_successful": "Settings saved."
       }
     }
   },

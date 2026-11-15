@@ -3,38 +3,72 @@
     "step": {
       "user": {
         "title": "Plooum CamPreview",
-        "description": "Choisis la caméra dont garder un aperçu régulier et filtré.",
+        "description": "Choisis les caméras dont garder un aperçu régulier et filtré, avec les réglages par défaut. D'autres s'ajoutent ensuite avec « Ajouter une caméra », chacune avec ses réglages.",
         "data": {
-          "camera_entity": "Caméra"
+          "cameras": "Caméras"
         }
       }
     },
     "abort": {
-      "already_configured": "Cette caméra a déjà un aperçu."
+      "single_instance_allowed": "Plooum CamPreview est déjà configuré : ajoute les caméras depuis son entrée (« Ajouter une caméra »)."
     }
   },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Réglages de l'aperçu",
-        "data": {
-          "interval": "Intervalle de capture",
-          "black_level": "Niveau de noir (0-255)",
-          "min_contrast": "Contraste minimum",
-          "match_threshold": "Seuil de ressemblance (0-1)",
-          "rebase_count": "Images semblables pour adopter une nouvelle vue (0 : jamais)",
-          "rebase_minutes": "...sur au moins",
-          "max_age_hours": "Accepter quand même après (0 : jamais)"
+  "config_subentries": {
+    "camera": {
+      "entry_type": "Caméra",
+      "initiate_flow": {
+        "user": "Ajouter une caméra"
+      },
+      "step": {
+        "user": {
+          "title": "Ajouter une caméra",
+          "data": {
+            "camera_entity": "Caméra",
+            "interval": "Intervalle de capture",
+            "black_level": "Niveau de noir (0-255)",
+            "min_contrast": "Contraste minimum",
+            "match_threshold": "Seuil de ressemblance (0-1)",
+            "rebase_count": "Images semblables pour adopter une nouvelle vue (0 : jamais)",
+            "rebase_minutes": "...sur au moins",
+            "max_age_hours": "Accepter quand même après (0 : jamais)"
+          },
+          "data_description": {
+            "interval": "Temps entre deux captures.",
+            "black_level": "Une image dont les parties les plus claires (98e centile) sont plus sombres est noire et ignorée.",
+            "min_contrast": "Une image plus plate que ça (écart type de la luminance) est uniforme (écran « pas de signal ») et ignorée.",
+            "match_threshold": "Une image dont les contours ressemblent moins que ça à la vue habituelle est ignorée : la caméra a tourné.",
+            "rebase_count": "Quand autant d'images ignorées d'affilée se ressemblent, la caméra pointe ailleurs pour de bon : la nouvelle vue est adoptée.",
+            "rebase_minutes": "...et couvrent au moins cette durée.",
+            "max_age_hours": "Dernier recours : après cette durée sans image acceptée (hors images noires), la dernière est prise."
+          }
         },
-        "data_description": {
-          "interval": "Temps entre deux captures.",
-          "black_level": "Une image dont les parties les plus claires (98e centile) sont plus sombres est noire et ignorée.",
-          "min_contrast": "Une image plus plate que ça (écart type de la luminance) est uniforme (écran « pas de signal ») et ignorée.",
-          "match_threshold": "Une image dont les contours ressemblent moins que ça à la vue habituelle est ignorée : la caméra a tourné.",
-          "rebase_count": "Quand autant d'images ignorées d'affilée se ressemblent, la caméra pointe ailleurs pour de bon : la nouvelle vue est adoptée.",
-          "rebase_minutes": "...et couvrent au moins cette durée.",
-          "max_age_hours": "Dernier recours : après cette durée sans image acceptée (hors images noires), la dernière est prise."
+        "reconfigure": {
+          "title": "Réglages de l'aperçu : {camera}",
+          "data": {
+            "interval": "Intervalle de capture",
+            "black_level": "Niveau de noir (0-255)",
+            "min_contrast": "Contraste minimum",
+            "match_threshold": "Seuil de ressemblance (0-1)",
+            "rebase_count": "Images semblables pour adopter une nouvelle vue (0 : jamais)",
+            "rebase_minutes": "...sur au moins",
+            "max_age_hours": "Accepter quand même après (0 : jamais)"
+          },
+          "data_description": {
+            "interval": "Temps entre deux captures.",
+            "black_level": "Une image dont les parties les plus claires (98e centile) sont plus sombres est noire et ignorée.",
+            "min_contrast": "Une image plus plate que ça (écart type de la luminance) est uniforme (écran « pas de signal ») et ignorée.",
+            "match_threshold": "Une image dont les contours ressemblent moins que ça à la vue habituelle est ignorée : la caméra a tourné.",
+            "rebase_count": "Quand autant d'images ignorées d'affilée se ressemblent, la caméra pointe ailleurs pour de bon : la nouvelle vue est adoptée.",
+            "rebase_minutes": "...et couvrent au moins cette durée.",
+            "max_age_hours": "Dernier recours : après cette durée sans image acceptée (hors images noires), la dernière est prise."
+          }
         }
+      },
+      "error": {
+        "already_configured": "Cette caméra a déjà un aperçu."
+      },
+      "abort": {
+        "reconfigure_successful": "Réglages enregistrés."
       }
     }
   },

@@ -11,7 +11,7 @@ import time
 from typing import Any
 
 from homeassistant.components.camera import async_get_image
-from homeassistant.config_entries import ConfigEntry
+from homeassistant.config_entries import ConfigEntry, ConfigSubentry
 from homeassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
@@ -62,22 +62,38 @@ def settings_from(options: dict[str, Any]) -> Settings:
     return s
 
 
+def _store(hass: HomeAssistant, key: str) -> Store[dict[str, Any]]:
+    return Store(hass, STORAGE_VERSION, f"{DOMAIN}.{key}")
+
+
+def _image_path(hass: HomeAssistant, key: str) -> Path:
+    return Path(hass.config.path(".storage", DOMAIN, f"{key}.img"))
+
+
+async def async_remove_preview(hass: HomeAssistant, key: str) -> None:
+    """Forget what a camera's preview keeps (a removed camera)."""
+    await _store(hass, key).async_remove()
+    await hass.async_add_executor_job(_image_path(hass, key).unlink, True)
+
+
 def _iso(ts: float | None) -> str | None:
     return dt_util.utc_from_timestamp(ts).isoformat() if ts is not None else None
 
 
 class PreviewManager:
-    """Captures, filters and keeps the preview of one camera (one config entry)."""
+    """Captures, filters and keeps the preview of one camera (one subentry of the config entry)."""
 
-    def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
+    def __init__(self, hass: HomeAssistant, entry: ConfigEntry, subentry: ConfigSubentry) -> None:
         self.hass = hass
         self.entry = entry
-        options = {**entry.data, **entry.options}
-        self.camera: str = entry.data[CONF_CAMERA]
+        self.key = subentry.subentry_id
+        self.title = subentry.title
+        options = dict(subentry.data)
+        self.camera: str = options[CONF_CAMERA]
         self.interval: int = int(options.get(CONF_INTERVAL, DEFAULT_INTERVAL))
         self.settings = settings_from(options)
-        self._store: Store[dict[str, Any]] = Store(hass, STORAGE_VERSION, f"{DOMAIN}.{entry.entry_id}")
-        self._image_path = Path(hass.config.path(".storage", DOMAIN, f"{entry.entry_id}.img"))
+        self._store = _store(hass, self.key)
+        self._image_path = _image_path(hass, self.key)
         self._lock = asyncio.Lock()
         self._listeners: list[Callable[[], None]] = []
         self._unsubs: list[CALLBACK_TYPE] = []
@@ -126,10 +142,6 @@ class PreviewManager:
     def async_stop(self) -> None:
         while self._unsubs:
             self._unsubs.pop()()
-
-    async def async_remove(self) -> None:
-        await self._store.async_remove()
-        await self.hass.async_add_executor_job(self._image_path.unlink, True)
 
     @callback
     def async_add_listener(self, listener: Callable[[], None]) -> CALLBACK_TYPE:

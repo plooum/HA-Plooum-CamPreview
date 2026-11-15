@@ -7,7 +7,7 @@ Garder, pour une caméra, une image d'aperçu prise à intervalle régulier, en 
 ## Choix
 
 - **Intégration côté serveur** plutôt que dans la carte : la capture tourne même sans tableau de bord ouvert, l'aperçu est partagé par tous les navigateurs et survit au redémarrage. La carte floorplan faisait déjà ce filtrage dans le navigateur (`projection_picture: live`) ; l'intégration reprend la même mesure (contours 64 × 36, corrélation, seuil 0,5) pour que les deux s'accordent.
-- **Une entrée de configuration par caméra** (flux de configuration, options modifiables, rechargement à chaud).
+- **Une entrée de configuration, une sous-entrée par caméra** (depuis la 0.2.0) : « Ajouter une caméra », réglages par caméra (reconfiguration de la sous-entrée), suppression qui efface l'image et l'état gardés. La 0.1.0 avait une entrée par caméra : la migration (version 1 → 2) fait de la caméra une sous-entrée qui garde l'identifiant de l'entrée, donc ses fichiers, ses entités et son appareil (rattachés à la sous-entrée).
 - **Entité `image`** : servie par HA (`/api/image_proxy/…` avec jeton), son état est l'heure de l'image : une carte ne recharge l'image que quand l'état change.
 - **Pillow seul**, pas de numpy : la signature fait 4 608 nombres, le calcul en Python pur prend quelques millisecondes, dans l'exécuteur.
 - **Filtre pur** (`analysis.py`, `decision.py`) sans dépendance à HA : testable en isolation (`tests/test_filter.py`, scènes synthétiques jour / crépuscule / infrarouge / rotation / ronde PTZ).
@@ -18,7 +18,7 @@ Voir le README (section *Never ignoring everything*) et la docstring de `decisio
 
 ## Persistance
 
-`.storage/plooum_campreview.<entry_id>` (références, état du filtre) et `.storage/plooum_campreview/<entry_id>.img` (la dernière bonne image). Supprimés avec l'entrée.
+`.storage/plooum_campreview.<subentry_id>` (références, état du filtre) et `.storage/plooum_campreview/<subentry_id>.img` (la dernière bonne image). Supprimés avec la caméra ou l'entrée.
 
 ## Carte floorplan (HA-Plooum-Cards)
 
