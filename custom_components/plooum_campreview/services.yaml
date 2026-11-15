@@ -1,0 +1,9 @@
+update:
+  target:
+    entity:
+      integration: plooum_campreview
+  fields:
+    force:
+      default: false
+      selector:
+        boolean:

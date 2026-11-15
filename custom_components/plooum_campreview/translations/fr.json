@@ -1,0 +1,74 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Plooum CamPreview",
+        "description": "Choisis la caméra dont garder un aperçu régulier et filtré.",
+        "data": {
+          "camera_entity": "Caméra"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Cette caméra a déjà un aperçu."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Réglages de l'aperçu",
+        "data": {
+          "interval": "Intervalle de capture",
+          "black_level": "Niveau de noir (0-255)",
+          "min_contrast": "Contraste minimum",
+          "match_threshold": "Seuil de ressemblance (0-1)",
+          "rebase_count": "Images semblables pour adopter une nouvelle vue (0 : jamais)",
+          "rebase_minutes": "...sur au moins",
+          "max_age_hours": "Accepter quand même après (0 : jamais)"
+        },
+        "data_description": {
+          "interval": "Temps entre deux captures.",
+          "black_level": "Une image dont les parties les plus claires (98e centile) sont plus sombres est noire et ignorée.",
+          "min_contrast": "Une image plus plate que ça (écart type de la luminance) est uniforme (écran « pas de signal ») et ignorée.",
+          "match_threshold": "Une image dont les contours ressemblent moins que ça à la vue habituelle est ignorée : la caméra a tourné.",
+          "rebase_count": "Quand autant d'images ignorées d'affilée se ressemblent, la caméra pointe ailleurs pour de bon : la nouvelle vue est adoptée.",
+          "rebase_minutes": "...et couvrent au moins cette durée.",
+          "max_age_hours": "Dernier recours : après cette durée sans image acceptée (hors images noires), la dernière est prise."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Statut",
+        "state": {
+          "waiting": "En attente",
+          "ok": "OK",
+          "black": "Image noire",
+          "uniform": "Image uniforme",
+          "moved": "Caméra déplacée",
+          "unavailable": "Caméra indisponible",
+          "error": "Image illisible"
+        }
+      }
+    },
+    "button": {
+      "force_update": {
+        "name": "Forcer la mise à jour"
+      }
+    }
+  },
+  "services": {
+    "update": {
+      "name": "Mettre à jour l'aperçu",
+      "description": "Capture une image tout de suite. Forcée, elle est prise quoi qu'elle montre et devient la nouvelle vue habituelle de la caméra.",
+      "fields": {
+        "force": {
+          "name": "Forcer",
+          "description": "Ignorer les filtres et adopter l'image comme nouvelle vue."
+        }
+      }
+    }
+  }
+}

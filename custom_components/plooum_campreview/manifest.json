@@ -1,0 +1,13 @@
+{
+  "domain": "plooum_campreview",
+  "name": "Plooum CamPreview",
+  "codeowners": ["@plooum"],
+  "config_flow": true,
+  "dependencies": ["camera", "image"],
+  "documentation": "https://github.com/plooum/HA-Plooum-CamPreview",
+  "integration_type": "service",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/plooum/HA-Plooum-CamPreview/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
